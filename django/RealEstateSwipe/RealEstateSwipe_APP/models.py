@@ -7,7 +7,7 @@ class Advantage(models.Model):
     icon = models.CharField(max_length=20,null=False)
 
     def __str__(self):
-        return self.name
+        return str(self.id)
 
 
 class Property(models.Model):
@@ -32,7 +32,7 @@ class Property(models.Model):
     advantages = models.ManyToManyField(Advantage)
 
     def __str__(self):
-        return self.name
+        return self.type + " " + str(self.id)
 
 
 class Picture(models.Model):
@@ -40,7 +40,7 @@ class Picture(models.Model):
     idProperty = models.ForeignKey(Property,null=False,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return str(self.id) + " - Property " + str(self.idProperty)
 
 
 class User(models.Model):
@@ -48,11 +48,11 @@ class User(models.Model):
     lastName = models.CharField(max_length=30,null=False)
     email = models.CharField(max_length=30,null=False)
     password = models.CharField(max_length=30,null=False)
-    liked = models.ManyToManyField(Property,related_name='liked_properties')
-    passed = models.ManyToManyField(Property,related_name='disliked_properties')
+    liked = models.ManyToManyField(Property,related_name='liked_properties', blank=True)
+    passed = models.ManyToManyField(Property,related_name='disliked_properties', blank=True)
 
     def __str__(self):
-        return self.name
+        return self.firstName + " " + self.lastName
 
 
 try:
@@ -61,20 +61,22 @@ except Exception as e:
     raise e
 
 
-class Message(models.Model):
-    content = models.CharField(max_length=500,null=False)
-    date = models.DateField(auto_now_add=True,auto_now=False)
-    idUser = models.ForeignKey(User,null=False,on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.name
-
-
 class Conversation(models.Model):
     idUser1 = models.ForeignKey(User,null=False,on_delete=models.CASCADE,related_name='first_user')
     idUser2 = models.ForeignKey(User,null=False,on_delete=models.CASCADE,related_name='second_user')
     idProperty = models.ForeignKey(Property,null=False,on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return str(self.id) + " - " + self.idUser1.firstName + " " + self.idUser1.lastName + " / " + self.idUser2.firstName + " " + self.idUser2.lastName + " about " + str(self.idProperty)
+
+
+class Message(models.Model):
+    content = models.CharField(max_length=500,null=False)
+    date = models.DateField(auto_now_add=True,auto_now=False)
+    idUser = models.ForeignKey(User,null=False,on_delete=models.CASCADE)
+    idConversation = models.ForeignKey(Conversation,null=False,on_delete=models.CASCADE, default=0)
+
+    def __str__(self):
+        return str(self.idUser) + ", " + str(self.date) + " on conversation number " + str(self.idConversation.id) 
+
 
