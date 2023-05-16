@@ -12,6 +12,10 @@ export let testProperties = [
     price: 667.76,
     isRental: true,
     idUser: 1,
+    photos: [
+      require("./assets/images/1/1.jpg"),
+      require("./assets/images/1/2.jpg"),
+    ],
   },
   {
     id: 2,
@@ -26,6 +30,10 @@ export let testProperties = [
     price: 210123,
     isRental: false,
     idUser: 1,
+    photos: [
+      require("./assets/images/2/3.jpg"),
+      require("./assets/images/2/4.jpg"),
+    ],
   },
   {
     id: 3,
@@ -40,6 +48,10 @@ export let testProperties = [
     price: 999999.99,
     isRental: false,
     idUser: 2,
+    photos: [
+      require("./assets/images/3/5.jpg"),
+      require("./assets/images/3/6.jpg"),
+    ],
   },
   {
     id: 4,
@@ -54,6 +66,10 @@ export let testProperties = [
     price: 280000,
     isRental: false,
     idUser: 3,
+    photos: [
+      require("./assets/images/4/7.jpg"),
+      require("./assets/images/4/8.jpg"),
+    ],
   },
   {
     id: 5,
@@ -68,5 +84,9 @@ export let testProperties = [
     price: 2222,
     isRental: true,
     idUser: 4,
+    photos: [
+      require("./assets/images/5/9.jpg"),
+      require("./assets/images/5/10.jpg"),
+    ],
   },
 ];
