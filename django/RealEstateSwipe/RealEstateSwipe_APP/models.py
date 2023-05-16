@@ -64,7 +64,7 @@ except Exception as e:
 class Message(models.Model):
     content = models.CharField(max_length=500,null=False)
     date = models.DateField(auto_now_add=True,auto_now=False)
-    iduser = models.ForeignKey(User,null=False,on_delete=models.CASCADE)
+    idUser = models.ForeignKey(User,null=False,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
