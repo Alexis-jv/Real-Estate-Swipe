@@ -3,25 +3,39 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   Dimensions,
   Animated,
   PanResponder,
 } from "react-native";
+import SwipeCard from "../../components/SwipeCard";
 import { testProperties } from "../../testProperties";
 
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-const properties = testProperties; /*[
-  { id: 1, label: "Property 1" },
-  { id: 2, label: "Property 2" },
-  { id: 3, label: "Property 3" },
-  // ... Ajoutez d'autres biens immobiliers ici
-];
-*/
-
 export default function HomeScreen() {
   const pan = useRef(new Animated.ValueXY()).current;
+
+  //This has to be a list of all properties ids we will stack on the deck
+  //and fetch datas from the database when we put the id into the rendered list state
+  const [properties, setProperties] = useState(
+    JSON.parse(JSON.stringify(testProperties))
+  );
+
+  const [rendered, setRendered] = useState(properties.slice(0, 2)); //List of property object fetched
+
+  //These states must be global and fetched from the database
+  const [liked, setLiked] = useState([]); //List of fetched property ids liked
+  const [passed, setPassed] = useState([]); //List of fetched property ids passed
+
+  function swipeLeftHandler() {
+    setPassed([...passed, properties[0].id]);
+    setProperties(properties.slice(1));
+    setRendered(properties.slice(1, 3));
+  }
+
+  function swipeRightHandler() {}
 
   const panResponder = useRef(
     PanResponder.create({
@@ -37,6 +51,7 @@ export default function HomeScreen() {
             duration: 180,
             useNativeDriver: false,
           }).start(() => {
+            swipeRightHandler();
             pan.setValue({ x: 0, y: 0 }); // Réinitialise la position de la carte
           });
         } else if (gesture.dx < -120) {
@@ -46,6 +61,7 @@ export default function HomeScreen() {
             duration: 180,
             useNativeDriver: false,
           }).start(() => {
+            swipeLeftHandler();
             pan.setValue({ x: 0, y: 0 }); // Réinitialise la position de la carte
           });
         } else {
@@ -67,16 +83,16 @@ export default function HomeScreen() {
   return (
     <View style={styles.screen}>
       <View style={styles.deck}>
-        {properties
+        {rendered
           .map((property, index) => {
             if (index === 0) {
               return (
                 <Animated.View
                   key={property.id}
-                  style={[styles.card, animatedCardStyles]}
+                  style={[styles.card, styles.currentCard, animatedCardStyles]}
                   {...panResponder.panHandlers}
                 >
-                  <Text>{property.label}</Text>
+                  <SwipeCard property={property} />
                 </Animated.View>
               );
             }
@@ -86,7 +102,7 @@ export default function HomeScreen() {
                 style={[styles.card]}
                 {...panResponder.panHandlers}
               >
-                <Text>{property.label}</Text>
+                <SwipeCard property={property} />
               </Animated.View>
             );
           })
@@ -105,17 +121,23 @@ const styles = StyleSheet.create({
   deck: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "red",
+    backgroundColor: "lightgray",
+    borderRadius: 16,
     height: SCREEN_HEIGHT - 120,
     width: SCREEN_WIDTH > 509 ? 500 : SCREEN_WIDTH - 20,
   },
   card: {
     position: "absolute",
-    backgroundColor: "lightblue",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 16,
     height: "100%",
     width: "100%",
+    borderRadius: 16,
+  },
+  currentCard: {
+    shadowColor: "black",
+    shadowOpacity: 0.5,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 10 },
   },
 });
