@@ -19,24 +19,23 @@ export default function HomeScreen() {
 
   //This has to be a list of all properties ids we will stack on the deck
   //and fetch datas from the database when we put the id into the rendered list state
-  const [properties, setProperties] = useState(
-    JSON.parse(JSON.stringify(testProperties))
-  );
+  const properties = useRef(JSON.parse(JSON.stringify(testProperties)));
+  const liked = useRef([]);
+  const passed = useRef([]);
 
-  const [rendered, setRendered] = useState(properties.slice(0, 2)); //List of property object fetched
+  const [rendered, setRendered] = useState(properties.current.slice(0, 2));
 
-  //These states must be global and fetched from the database
-  const [liked, setLiked] = useState([]); //List of fetched property ids liked
-  const [passed, setPassed] = useState([]); //List of fetched property ids passed
+  const swipeLeftHandler = () => {
+    passed.current.push(properties.current[0].id);
+    properties.current = properties.current.slice(1);
+    setRendered(properties.current.slice(0, 2));
+  };
 
-  function swipeLeftHandler() {
-    setPassed([...passed, properties[0].id]);
-    setProperties(properties.slice(1));
-    setRendered(properties.slice(1, 3));
-  }
-
-  function swipeRightHandler() {}
-
+  const swipeRightHandler = () => {
+    liked.current.push(properties.current[0].id);
+    properties.current = properties.current.slice(1);
+    setRendered(properties.current.slice(0, 2));
+  };
   const panResponder = useRef(
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
@@ -82,7 +81,15 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.screen}>
+      {/*<Text>
+        {JSON.stringify(passed.current) + JSON.stringify(liked.current)}
+    </Text>*/}
       <View style={styles.deck}>
+        <Text>
+          {
+            "There is no longer properties to show you... \n Come later to see new ones!"
+          }
+        </Text>
         {rendered
           .map((property, index) => {
             if (index === 0) {
@@ -121,6 +128,7 @@ const styles = StyleSheet.create({
   deck: {
     justifyContent: "center",
     alignItems: "center",
+    textAlign: "center",
     backgroundColor: "lightgray",
     borderRadius: 16,
     height: SCREEN_HEIGHT - 120,
