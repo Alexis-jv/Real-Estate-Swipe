@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import mark_safe
 
 # Create your models here.
 
@@ -41,6 +42,9 @@ class Picture(models.Model):
 
     def __str__(self):
         return str(self.id) + " - Property " + str(self.idProperty)
+    
+    def img_preview(self):
+        return mark_safe(f'<img src = "{self.photo.url}"/>')
 
 
 class User(models.Model):

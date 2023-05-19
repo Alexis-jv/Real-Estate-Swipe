@@ -8,4 +8,9 @@ admin.site.register(Conversation)
 admin.site.register(User)
 admin.site.register(Property)
 admin.site.register(Advantage)
-admin.site.register(Picture)
+
+class PictureAdmin(admin.ModelAdmin):
+    readonly_fields = ['img_preview']
+
+admin.site.register(Picture, PictureAdmin)
+

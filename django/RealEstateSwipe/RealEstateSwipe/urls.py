@@ -16,13 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.views.generic.base import RedirectView
-from RealEstateSwipe_APP.views import rest_message_view
+#from django.views.generic.base import RedirectView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', include('RealEstateSwipe_APP.urls')),
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url='admin/', permanent=False), name="index"),
-
-    # REST_test urls
-    path('messages/', rest_message_view, name="messages_rest"),
+    #path('', RedirectView.as_view(url='admin/', permanent=False), name="index"),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
