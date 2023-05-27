@@ -2,7 +2,6 @@ from django.urls import path
 from django.views.generic import RedirectView
 from RealEstateSwipe_APP.views import *
 
-app_name = 'jack'
 urlpatterns = [
     path('', RedirectView.as_view(url='messages/1/', permanent=False), name="Conversation_1"),
     
