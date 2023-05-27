@@ -14,12 +14,6 @@ class PropertyForm(forms.ModelForm):
         model = Property
         fields = '__all__'
 
-class AdvantageForm(forms.ModelForm):
-
-    class Meta:
-        model = Advantage
-        fields = '__all__'
-
 class UserForm(forms.ModelForm):
 
     class Meta:
