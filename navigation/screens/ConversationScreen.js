@@ -24,7 +24,7 @@ const ConversationScreen = () => {
               activeMenu === 'seeker' && styles.activeMenuText,
             ]}
           >
-            Seeker Side
+            Likes & chats
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -40,7 +40,7 @@ const ConversationScreen = () => {
               activeMenu === 'provider' && styles.activeMenuText,
             ]}
           >
-            Provider Side
+            Your homes
           </Text>
         </TouchableOpacity>
       </View>
@@ -48,16 +48,16 @@ const ConversationScreen = () => {
         {activeMenu === 'seeker' && (
           <View>
             {/* Afficher la liste des logements likés */}
-            <Text>Liste des logements likés</Text>
+            <Text>"Liked" homes</Text>
             {/* Afficher la liste des tchats en cours */}
-            <Text>Liste des tchats en cours</Text>
+            <Text>Current chats</Text>
           </View>
         )}
 
         {activeMenu === 'provider' && (
           <View>
             {/* Afficher la liste des logements publiés par l'utilisateur */}
-            <Text>Liste des logements publiés</Text>
+            <Text>Published homes</Text>
           </View>
         )}
       </View>
