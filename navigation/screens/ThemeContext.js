@@ -1,10 +1,8 @@
-// ThemeContext.js
-
 import React, { createContext, useState } from 'react';
 
-export const ThemeContext = createContext();
+const ThemeContext = createContext();
 
-export const ThemeProvider = ({ children }) => {
+const ThemeProvider = ({ children }) => {
   const [darkModeEnabled, setDarkModeEnabled] = useState(false);
 
   return (
@@ -13,3 +11,5 @@ export const ThemeProvider = ({ children }) => {
     </ThemeContext.Provider>
   );
 };
+
+export { ThemeProvider, ThemeContext };
